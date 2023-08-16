@@ -1,8 +1,8 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 #include <bits/stdc++.h>
-#include "../lib/board.h"
-#include "../lib/move.h"
+#include "../lib/board.hpp"
+#include "../lib/move.hpp"
 
 class Engine: public Move, public Board {
 public:

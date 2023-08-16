@@ -2,7 +2,7 @@
 #define ENGINE_UCI_H
 #include <iostream>
 #include <algorithm>
-#include "bot.h"
+#include "bot.hpp"
 #include <fstream>
 
 std::string trim(const std::string& str) {

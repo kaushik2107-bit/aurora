@@ -1,10 +1,10 @@
 #ifndef ANALYSIS_H
 #define ANALYSIS_H
 #include <bits/stdc++.h>
-#include "../helpers/help.h"
-#include "./engine.h"
-#include "../constants/analysis_constants.h"
-#include "../helpers/hash.h"
+#include "../helpers/help.hpp"
+#include "./engine.hpp"
+#include "../constants/analysis_constants.hpp"
+#include "../helpers/hash.hpp"
 
 class Analysis: public Engine {
 private:
@@ -312,7 +312,6 @@ std::tuple<std::vector<std::string>, double, int> Analysis::search(int depth, do
 
 
 std::tuple<std::vector<std::string>, double, int> Analysis::iterative_deepening(int depth, int time_limit) {
-    std::cout << transposition_table.size() << std::endl;
     std::vector<std::string> bestMove; double bestEval; std::vector<std::string> move; double evaluation; int nodes;
     auto start = std::chrono::high_resolution_clock::now();
     for (int current_depth=1; current_depth<=depth; current_depth++) {

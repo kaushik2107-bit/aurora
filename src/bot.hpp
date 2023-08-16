@@ -1,6 +1,6 @@
 #ifndef BOT_H
 #define BOT_H
-#include "analysis.h"
+#include "analysis.hpp"
 
 class BOT {
 public:

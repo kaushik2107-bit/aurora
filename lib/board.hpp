@@ -1,8 +1,8 @@
 #ifndef BOARD_H
 #define BOARD_H
 #include <bits/stdc++.h>
-#include "../helpers/help.h"
-#include "../src/chess.h"
+#include "../helpers/help.hpp"
+#include "../src/chess.hpp"
 
 class Board:virtual public Chess {
 private:

@@ -1,7 +1,7 @@
 #ifndef HASH_H
 #define HASH_H
 #include <bits/stdc++.h>
-#include "../constants/zobrist_keys.h"
+#include "../constants/zobrist_keys.hpp"
 
 uint64_t get_zobrist_hash(std::unordered_map<char, uint64_t> bitboards, bool player, std::bitset<4> castling_rights, uint64_t en_passant) {
     // 0 1 2 3 4 5 6 7 8 9 10 11

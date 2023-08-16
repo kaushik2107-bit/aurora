@@ -1,9 +1,9 @@
 #ifndef MOVE_H
 #define MOVE_H
 #include <bits/stdc++.h>
-#include "../helpers/help.h"
-#include "../constants/constants.h"
-#include "../helpers/attacks.h"
+#include "../helpers/help.hpp"
+#include "../constants/constants.hpp"
+#include "../helpers/attacks.hpp"
 
 class Move : virtual public Chess {
 private:

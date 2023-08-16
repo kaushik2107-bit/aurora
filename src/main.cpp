@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include "engineUCI.h"
+#include "engineUCI.hpp"
 
 int main() {
     EngineUCI eng;
