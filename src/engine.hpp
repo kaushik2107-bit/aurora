@@ -6,6 +6,26 @@
 #include "../lib/board.hpp"
 #include "../lib/move.hpp"
 
+#ifdef __GNUC__ // Check if using GCC
+
+#include <popcntintrin.h> // For GCC's popcnt and lzcnt intrinsics
+
+#define CTZ(value) __builtin_ctzll(value)
+#define CLZ(value) __builtin_clzll(value)
+#define POPCOUNT(value) __builtin_popcountll(value)
+
+#elif defined(_MSC_VER) // Check if using MSVC
+
+#include <intrin.h> // For MSVC intrinsics
+
+#define CTZ(value) _tzcnt_u64(value)
+#define CLZ(value) _lzcnt_u64(value)
+#define POPCOUNT(value) __popcnt64(value)
+
+#else
+#error "Unsupported compiler"
+#endif
+
 class Engine: public Move, public Board {
 public:
     void push(std::string);
@@ -39,7 +59,7 @@ void Engine::generate_legal_moves() {
         if (king_check && is_double_check) {
             if ((bitboard[player ? 'K' : 'k'] & (1ull << initial)) && !(attack_bitboards & (1ull << final))) legal_moves.push_back(move);
         } else if (king_check) {
-            int first_point = __builtin_ctzll(bitboard[player ? 'K' : 'k']);
+            int first_point = CTZ(bitboard[player ? 'K' : 'k']);
             int second_point = checked_by;
             uint64_t btb = two_points[first_point][second_point];
             if (final == checked_by) {
@@ -54,7 +74,7 @@ void Engine::generate_legal_moves() {
             else if (final == en_passant) en_passant = 111;
         } else {
             if (pinned_piece_map.count(initial)) {
-                int first_point = __builtin_ctzll(bitboard[player ? 'K' : 'k']);
+                int first_point = CTZ(bitboard[player ? 'K' : 'k']);
                 int second_point = pinned_piece_map[initial];
                 uint64_t btb = two_points[first_point][second_point];
                 if (btb & (1ull << final)) {
@@ -69,8 +89,8 @@ void Engine::generate_legal_moves() {
                     uint64_t secondRookPoint = rook_mask_edges_divider[second_point*4 + 1];
                     uint64_t firstMask = merged_bitboards & firstRookPoint;
                     uint64_t secondMask = merged_bitboards & secondRookPoint;
-                    int leftSquare = 63 - __builtin_clzll(firstMask);
-                    int rightSquare = __builtin_ctzll(secondMask);
+                    int leftSquare = 63 - CLZ(firstMask);
+                    int rightSquare = CTZ(secondMask);
                     if ((bitboard[player ? 'K' : 'k'] & (1ull << leftSquare)) && (((bitboard[player ? 'r' : 'R'] & (1ull << rightSquare)) || (bitboard[player ? 'q' : 'Q'] & (1ull << rightSquare))))) {
                         en_passant = 111;
                         continue;
@@ -84,8 +104,8 @@ void Engine::generate_legal_moves() {
                     secondRookPoint = rook_mask_edges_divider[first_point*4 + 2];
                     firstMask = merged_bitboards & firstRookPoint;
                     secondMask = merged_bitboards & secondRookPoint;
-                    int topSquare = __builtin_ctzll(firstMask);
-                    int bottomSquare = 63 - __builtin_clzll(secondMask);
+                    int topSquare = CTZ(firstMask);
+                    int bottomSquare = 63 - CLZ(secondMask);
                     if ((bitboard[player ? 'K' : 'k'] & (1ull << topSquare)) && ((bitboard[player ? 'r' : 'R'] & (1ull << bottomSquare)) || (bitboard[player ? 'q' : 'Q'] & (1ull << bottomSquare)))) {
                         en_passant = 111;
                     } else if ((bitboard[player ? 'K' : 'k'] & (1ull << bottomSquare)) && ((bitboard[player ? 'r' : 'R'] & (1ull << topSquare)) || (bitboard[player ? 'q' : 'Q'] & (1ull << topSquare)))) {

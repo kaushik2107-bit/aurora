@@ -7,6 +7,26 @@
 #include "../constants/analysis_constants.hpp"
 #include "../helpers/hash.hpp"
 
+#ifdef __GNUC__ // Check if using GCC
+
+#include <popcntintrin.h> // For GCC's popcnt and lzcnt intrinsics
+
+#define CTZ(value) __builtin_ctzll(value)
+#define CLZ(value) __builtin_clzll(value)
+#define POPCOUNT(value) __builtin_popcountll(value)
+
+#elif defined(_MSC_VER) // Check if using MSVC
+
+#include <intrin.h> // For MSVC intrinsics
+
+#define CTZ(value) _tzcnt_u64(value)
+#define CLZ(value) _lzcnt_u64(value)
+#define POPCOUNT(value) __popcnt64(value)
+
+#else
+#error "Unsupported compiler"
+#endif
+
 class Analysis: public Engine {
 private:
     int count_material(bool);
@@ -37,7 +57,7 @@ public:
 
 double Analysis::evaluate_position() {
     int whiteEval = 0, blackEval = 0;
-    int totalPieces = __builtin_popcount(merged_bitboards);
+    int totalPieces = POPCOUNT(merged_bitboards);
     float weight =  1.0 - (totalPieces / 16.0);
 
     // counting material
@@ -50,12 +70,12 @@ double Analysis::evaluate_position() {
 
     // forcing king to corner endgame
     if (player) {
-        int whiteKing = __builtin_ctzll(bitboard['K']);
-        int blackKing = __builtin_ctzll(bitboard['k']);
+        int whiteKing = CTZ(bitboard['K']);
+        int blackKing = CTZ(bitboard['k']);
         whiteEval += force_king_to_corner_endgame(whiteKing, blackKing, weight);
     } else {
-        int whiteKing = __builtin_ctzll(bitboard['K']);
-        int blackKing = __builtin_ctzll(bitboard['k']);
+        int whiteKing = CTZ(bitboard['K']);
+        int blackKing = CTZ(bitboard['k']);
         blackEval += force_king_to_corner_endgame(blackKing, whiteKing, weight);
     }
 
@@ -70,37 +90,37 @@ double Analysis::check_piece_square_table(bool player, float endgameWeight) {
             int tmp = board;
             if (piece == 'Q') {
                 while (tmp) {
-                    int initial_square = __builtin_ctzll(tmp);
+                    int initial_square = CTZ(tmp);
                     tmp &= ~(1ull << initial_square);
                     evaluation += whiteEvalQueen[initial_square];
                 }
             } else if (piece == 'R') {
                  while (tmp) {
-                    int initial_square = __builtin_ctzll(tmp);
+                    int initial_square = CTZ(tmp);
                     tmp &= ~(1ull << initial_square);
                     evaluation += whiteEvalRook[initial_square];
                 }
             } else if (piece == 'B') {
                  while (tmp) {
-                    int initial_square = __builtin_ctzll(tmp);
+                    int initial_square = CTZ(tmp);
                     tmp &= ~(1ull << initial_square);
                     evaluation += whiteEvalBishop[initial_square];
                 }
             } else if (piece == 'N') {
                  while (tmp) {
-                    int initial_square = __builtin_ctzll(tmp);
+                    int initial_square = CTZ(tmp);
                     tmp &= ~(1ull << initial_square);
                     evaluation += whiteEvalKnight[initial_square];
                 }
             } else if (piece == 'P') {
                  while (tmp) {
-                    int initial_square = __builtin_ctzll(tmp);
+                    int initial_square = CTZ(tmp);
                     tmp &= ~(1ull << initial_square);
                     evaluation += whiteEvalPawn[initial_square];
                 }
             } else if (piece == 'K') {
                  while (tmp) {
-                    int initial_square = __builtin_ctzll(tmp);
+                    int initial_square = CTZ(tmp);
                     tmp &= ~(1ull << initial_square);
                     evaluation += (endgameWeight > 0.7 ? whiteEvalKingEnd[initial_square] : whiteEvalKing[initial_square]);
                 }
@@ -111,37 +131,37 @@ double Analysis::check_piece_square_table(bool player, float endgameWeight) {
             int tmp = board;
             if (piece == 'q') {
                 while (tmp) {
-                    int initial_square = __builtin_ctzll(tmp);
+                    int initial_square = CTZ(tmp);
                     tmp &= ~(1ull << initial_square);
                     evaluation += blackEvalQueen[initial_square];
                 }
             } else if (piece == 'r') {
                  while (tmp) {
-                    int initial_square = __builtin_ctzll(tmp);
+                    int initial_square = CTZ(tmp);
                     tmp &= ~(1ull << initial_square);
                     evaluation += blackEvalRook[initial_square];
                 }
             } else if (piece == 'b') {
                  while (tmp) {
-                    int initial_square = __builtin_ctzll(tmp);
+                    int initial_square = CTZ(tmp);
                     tmp &= ~(1ull << initial_square);
                     evaluation += blackEvalBishop[initial_square];
                 }
             } else if (piece == 'n') {
                  while (tmp) {
-                    int initial_square = __builtin_ctzll(tmp);
+                    int initial_square = CTZ(tmp);
                     tmp &= ~(1ull << initial_square);
                     evaluation += blackEvalKnight[initial_square];
                 }
             } else if (piece == 'p') {
                  while (tmp) {
-                    int initial_square = __builtin_ctzll(tmp);
+                    int initial_square = CTZ(tmp);
                     tmp &= ~(1ull << initial_square);
                     evaluation += blackEvalPawn[initial_square];
                 }
             } else if (piece == 'k') {
                  while (tmp) {
-                    int initial_square = __builtin_ctzll(tmp);
+                    int initial_square = CTZ(tmp);
                     tmp &= ~(1ull << initial_square);
                     evaluation += (endgameWeight > 0.7 ? blackEvalKingEnd[initial_square] : blackEvalKing[initial_square]);
                 }
@@ -180,7 +200,7 @@ double Analysis::force_king_to_corner_endgame(int playerKing, int opponentKing, 
 int Analysis::count_material(bool color) {
     int material = 0;
     for (auto [piece, board]: bitboard) {
-        int count = __builtin_popcountll(board);
+        int count = POPCOUNT(board);
         if (!color && piece >= 'a') material += count*piece_score[piece];
         else if (color && piece <= 'Z') material += count*piece_score[piece + 32];  
     }
