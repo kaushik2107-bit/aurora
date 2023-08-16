@@ -1,6 +1,7 @@
 #ifndef ATTACKS_H
 #define ATTACKS_H
-#include <bits/stdc++.h>
+#include <vector>
+#include <cstdint>
 
 const uint64_t BTable[32768] = {
   0x8040201008040200ULL,

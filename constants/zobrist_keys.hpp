@@ -1,6 +1,7 @@
 #ifndef ZOBRIST_KEYS_H
 #define ZOBRIST_KEYS_H
-#include <bits/stdc++.h>
+#include <vector>
+#include <cstdint>
 
 std::vector<uint64_t> zobrist_keys = {
 16262678929584141660ULL,

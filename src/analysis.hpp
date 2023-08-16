@@ -1,6 +1,7 @@
 #ifndef ANALYSIS_H
 #define ANALYSIS_H
-#include <bits/stdc++.h>
+#include <chrono>
+#include <cmath>
 #include "../helpers/help.hpp"
 #include "./engine.hpp"
 #include "../constants/analysis_constants.hpp"

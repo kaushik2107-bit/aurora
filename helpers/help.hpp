@@ -1,6 +1,10 @@
 #ifndef HELP_H
 #define HELP_H
-#include <bits/stdc++.h>
+#include <bitset>
+#include <string>
+#include <unordered_map>
+#include <vector>
+#include <cstdint>
 
 std::string generate_castling_rights(std::bitset<4> castling_rights) {
     std::string castlingRights;

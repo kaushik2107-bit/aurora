@@ -1,6 +1,8 @@
 #ifndef ENGINE_H
 #define ENGINE_H
-#include <bits/stdc++.h>
+#include <iostream>
+#include <cstdint>
+#include <sstream>
 #include "../lib/board.hpp"
 #include "../lib/move.hpp"
 

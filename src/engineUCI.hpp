@@ -2,6 +2,7 @@
 #define ENGINE_UCI_H
 #include <iostream>
 #include <algorithm>
+#include <iomanip>
 #include "bot.hpp"
 #include <fstream>
 

@@ -1,4 +1,3 @@
-#include <bits/stdc++.h>
 #include "engineUCI.hpp"
 
 int main() {

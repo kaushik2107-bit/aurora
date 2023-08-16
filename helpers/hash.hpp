@@ -1,6 +1,8 @@
 #ifndef HASH_H
 #define HASH_H
-#include <bits/stdc++.h>
+#include <unordered_map>
+#include <bitset>
+#include <cstdint>
 #include "../constants/zobrist_keys.hpp"
 
 uint64_t get_zobrist_hash(std::unordered_map<char, uint64_t> bitboards, bool player, std::bitset<4> castling_rights, uint64_t en_passant) {

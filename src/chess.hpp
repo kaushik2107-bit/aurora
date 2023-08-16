@@ -1,6 +1,5 @@
 #ifndef CHESS_H
 #define CHESS_H
-#include <bits/stdc++.h>
 #include "../helpers/help.hpp"
 
 class Chess {

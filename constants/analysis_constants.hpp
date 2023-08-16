@@ -1,7 +1,7 @@
 #ifndef ANALYSIS_CONSTANTS_H
 #define ANALYSIS_CONSTANTS_H
-
-#include <bits/stdc++.h>
+#include <cstdint>
+#include <vector>
 
 std::vector<int> whiteEvalPawn = {
     0,  0,  0,  0,  0,  0,  0,  0,
