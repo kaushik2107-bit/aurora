@@ -321,25 +321,7 @@ std::tuple<std::vector<std::string>, double, int> Analysis::search(int depth, do
         // }
 
         auto end = std::chrono::high_resolution_clock::now();
-        // auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start_time).count();
-        // std::chrono::duration<double> difference = end - start_time;
-        // auto duration = difference.count();
-
-
-        #ifdef __GNUC__ // Check if using GCC
-
-        #include <popcntintrin.h> // For GCC's popcnt and lzcnt intrinsics
-
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start_time).count();
-
-        #elif defined(_MSC_VER) // Check if using MSVC
-
-        std::chrono::duration<double> difference = end - start_time;
-        auto duration = difference.count();
-
-        #endif
-
-
         if (duration > time_limit) {
             return {{}, 10000000, nodeCount};
         }
