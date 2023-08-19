@@ -86,7 +86,9 @@ double Analysis::evaluate_position() {
 double Analysis::check_piece_square_table(bool player, float endgameWeight) {
     int evaluation = 0;
     if (player) {
-        for (auto [piece, board]: bitboard) {
+        for (auto x: bitboard) {
+            char piece = x.first;
+            uint64_t board = x.second;
             int tmp = board;
             if (piece == 'Q') {
                 while (tmp) {
@@ -127,7 +129,9 @@ double Analysis::check_piece_square_table(bool player, float endgameWeight) {
             }
         }
     } else {
-        for (auto [piece, board]: bitboard) {
+        for (auto x: bitboard) {
+            char piece = x.first;
+            uint64_t board = x.second;
             int tmp = board;
             if (piece == 'q') {
                 while (tmp) {
