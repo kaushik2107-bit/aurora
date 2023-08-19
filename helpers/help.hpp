@@ -20,14 +20,14 @@ std::string generate_castling_rights(std::bitset<4> castling_rights) {
     return castlingRights;
 }
 
-std::uint64_t convert_to_number(std::string square) {
+uint64_t convert_to_number(std::string square) {
     int col = square[0] - 'a';
     int row = square[1] - '1';
 
     return row*8 + col;
 }
 
-std::string convert_to_notation(std::uint64_t number) {
+std::string convert_to_notation(uint64_t number) {
     int row = number / 8;
     int col = number % 8;
 
