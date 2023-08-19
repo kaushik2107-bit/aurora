@@ -48,7 +48,7 @@ public:
                 int squareIndex = rank * 8 + file;
                 for (auto x: bitboard) {
                     char pc = x.first;
-                    char brd = x.second;
+                    uint64_t brd = x.second;
                     if (brd & (1ull << squareIndex)) {
                         piece = pc;
                         break;

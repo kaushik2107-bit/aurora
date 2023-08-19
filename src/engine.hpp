@@ -342,7 +342,7 @@ void Engine::push(std::string move) {
         char piece, attack_piece = '0';
         for (auto x: bitboard) {
             char pc = x.first;
-            char board = x.second;
+            uint64_t board = x.second;
             if (board & (1ull << initial)) {
                 piece = pc;
             }

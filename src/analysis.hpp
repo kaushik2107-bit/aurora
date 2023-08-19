@@ -199,7 +199,9 @@ double Analysis::force_king_to_corner_endgame(int playerKing, int opponentKing, 
 
 int Analysis::count_material(bool color) {
     int material = 0;
-    for (auto [piece, board]: bitboard) {
+    for (auto x: bitboard) {
+        char piece = x.first;
+        uint64_t board = x.second;
         int count = POPCOUNT(board);
         if (!color && piece >= 'a') material += count*piece_score[piece];
         else if (color && piece <= 'Z') material += count*piece_score[piece + 32];  
