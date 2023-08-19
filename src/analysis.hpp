@@ -321,7 +321,25 @@ std::tuple<std::vector<std::string>, double, int> Analysis::search(int depth, do
         // }
 
         auto end = std::chrono::high_resolution_clock::now();
+        // auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start_time).count();
+        // auto s1 = std::chrono::duration_cast<std::chrono::milliseconds>(start_time.time_since_epoch()).count();
+        // auto e1 = std::chrono::duration_cast<std::chrono::milliseconds>(end.time_since_epoch()).count();
+        // auto duration = e1 - s1;
+
+
+        #ifdef __GNUC__ // Check if using GCC
+
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start_time).count();
+
+        #elif defined(_MSC_VER) // Check if using MSVC
+
+        auto s1 = std::chrono::duration_cast<std::chrono::milliseconds>(start_time.time_since_epoch()).count();
+        auto e1 = std::chrono::duration_cast<std::chrono::milliseconds>(end.time_since_epoch()).count();
+        auto duration = e1 - s1;
+
+        #endif
+
+
         if (duration > time_limit) {
             return {{}, 10000000, nodeCount};
         }
