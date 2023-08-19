@@ -42,7 +42,7 @@ public:
         this->player = !player;
     }
     double evaluate_position();
-    std::tuple<std::vector<std::string>, double, int> search(int, double, double, std::chrono::_V2::system_clock::time_point, int, std::string, bool startDepth);
+    std::tuple<std::vector<std::string>, double, int> search(int, double, double, std::chrono::system_clock::time_point, int, std::string, bool startDepth);
     std::tuple<std::vector<std::string>, double, int> iterative_deepening(int, int);
     double searchAllCaptures(int depth, double alpha, double beta);
     std::vector<std::string> generate_capture_moves();
@@ -249,7 +249,7 @@ double Analysis::searchAllCaptures(int depth, double alpha, double beta) {
     return alpha;
 }
 
-std::tuple<std::vector<std::string>, double, int> Analysis::search(int depth, double alpha, double beta, std::chrono::_V2::system_clock::time_point start_time, int time_limit, std::string prevMove, bool startDepth = false) {
+std::tuple<std::vector<std::string>, double, int> Analysis::search(int depth, double alpha, double beta, std::chrono::system_clock::time_point start_time, int time_limit, std::string prevMove, bool startDepth = false) {
     if (!startDepth) generate_legal_moves();
     uint64_t hash = get_zobrist_hash(bitboard, player, castling_rights, en_passant);
     std::vector<std::string> lm = legal_moves;
