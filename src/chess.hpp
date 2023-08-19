@@ -46,7 +46,9 @@ public:
             for (int file = 0; file < 8; file++) {
                 char piece = '0';
                 int squareIndex = rank * 8 + file;
-                for (auto [pc, brd]: bitboard) {
+                for (auto x: bitboard) {
+                    char pc = x.first;
+                    char brd = x.second;
                     if (brd & (1ull << squareIndex)) {
                         piece = pc;
                         break;

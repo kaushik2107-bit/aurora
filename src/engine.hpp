@@ -340,7 +340,9 @@ void Engine::push(std::string move) {
         int initial = convert_to_number(start);
         int final = convert_to_number(end);
         char piece, attack_piece = '0';
-        for (auto [pc, board]: bitboard) {
+        for (auto x: bitboard) {
+            char pc = x.first;
+            char board = x.second;
             if (board & (1ull << initial)) {
                 piece = pc;
             }
