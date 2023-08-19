@@ -378,7 +378,7 @@ std::tuple<std::vector<std::string>, double, int> Analysis::iterative_deepening(
 
         #elif defined(_MSC_VER) // Check if using MSVC
 
-        auto s1 = std::chrono::duration_cast<std::chrono::milliseconds>(start_time.time_since_epoch()).count();
+        auto s1 = std::chrono::duration_cast<std::chrono::milliseconds>(start.time_since_epoch()).count();
         auto e1 = std::chrono::duration_cast<std::chrono::milliseconds>(end.time_since_epoch()).count();
         auto duration = e1 - s1;
 
