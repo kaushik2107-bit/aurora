@@ -358,7 +358,7 @@ std::tuple<std::vector<std::string>, double, int> Analysis::search(int depth, do
 
 std::tuple<std::vector<std::string>, double, int> Analysis::iterative_deepening(int depth, int time_limit) {
     std::vector<std::string> bestMove; double bestEval; std::vector<std::string> move; double evaluation; int nodes;
-    auto start = std::chrono::high_resolution_clock::now();
+    std::chrono::system_clock::time_point start = std::chrono::high_resolution_clock::now();
     for (int current_depth=1; current_depth<=depth; current_depth++) {
         generate_legal_moves();
         if (current_depth != 1 && legal_moves.size() && bestMove.size()) {
@@ -372,7 +372,17 @@ std::tuple<std::vector<std::string>, double, int> Analysis::iterative_deepening(
         auto end = std::chrono::high_resolution_clock::now();
         if (move.size() && evaluation != 10000000) {bestMove = move; bestEval = evaluation;}
         // checking the previous depth's good move first
+        #ifdef __GNUC__ // Check if using GCC
+
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+
+        #elif defined(_MSC_VER) // Check if using MSVC
+
+        auto s1 = std::chrono::duration_cast<std::chrono::milliseconds>(start_time.time_since_epoch()).count();
+        auto e1 = std::chrono::duration_cast<std::chrono::milliseconds>(end.time_since_epoch()).count();
+        auto duration = e1 - s1;
+
+        #endif
         // std::cout << "   Depth:" << current_depth << "      evaluation: " << bestEval <<  "     Time: " << (duration/1000.0) << " seconds" << "     nodes: " << nodes << std::endl;
         // for (auto x: bestMove) std::cout << x << " ";
         // std::cout << std::endl;
