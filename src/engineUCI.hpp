@@ -99,7 +99,14 @@ public:
             processGoCommand(message);
         } else if (msgType == "d") {
             bot.print_board();
+        } else if (msgType == "debug") {
+            processDebugCommand(message);
         }
+    }
+
+    void processDebugCommand(std::string message) {
+        if (containsSubstring(message, "on")) bot.set_debug(true);
+        else bot.set_debug(false);
     }
 
     void processGoCommand(std::string message) {

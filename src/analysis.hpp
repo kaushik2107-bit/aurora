@@ -34,6 +34,7 @@ private:
     double check_piece_square_table(bool, float);
     std::unordered_map<uint64_t, std::tuple<std::vector<std::string>, double, int, int, int>> transposition_table;
 public:
+    bool debug = false;
     Analysis(std::string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"){
         this->fen = fen;
         get_info();
@@ -58,7 +59,8 @@ public:
 double Analysis::evaluate_position() {
     int whiteEval = 0, blackEval = 0;
     int totalPieces = POPCOUNT(merged_bitboards);
-    float weight =  1.0 - (totalPieces / 16.0);
+    if (totalPieces == 0) return -INFINITY;
+    float weight =  1.0 - pow((totalPieces / 32.0), (4.0 / totalPieces));
 
     // counting material
     whiteEval += count_material(true);
@@ -383,9 +385,12 @@ std::tuple<std::vector<std::string>, double, int> Analysis::iterative_deepening(
         auto duration = e1 - s1;
 
         #endif
-        // std::cout << "   Depth:" << current_depth << "      evaluation: " << bestEval <<  "     Time: " << (duration/1000.0) << " seconds" << "     nodes: " << nodes << std::endl;
-        // for (auto x: bestMove) std::cout << x << " ";
-        // std::cout << std::endl;
+        if (debug) {
+            std::cout << "info ";
+            std::cout << "depth " << current_depth << " time " << duration << " nodes " << nodes << " score cp " << bestEval << " pv ";
+            for (auto x: bestMove) std::cout << x << " ";
+            std::cout << std::endl;
+        }
         if (duration > time_limit) break;
     }
     return {bestMove, bestEval, nodes};

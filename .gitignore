@@ -1,1 +1,7 @@
 tests
+Neural_Network/2021-07-31-lichess-evaluations-37MM.db
+Neural_Network
+versions
+src/engine1.exe
+src/engine2.exe
+test_logs

@@ -57,6 +57,10 @@ public:
     void print_board() {
         analysis.print_board();
     }
+
+    void set_debug(bool debug_state) {
+        analysis.debug = debug_state;
+    }
 };
 
 
